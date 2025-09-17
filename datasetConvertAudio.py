@@ -1,44 +1,53 @@
+"""
+File for converting audio dataset to spectrogram images. The data will be 
+converted to 1 second clips to keep consistencey. 
+"""
+import os
+import time
 import librosa, librosa.display
 import matplotlib.pyplot as plt
 import numpy as np
 
-file = "cat-dataset/B_MIN01_EU_FN_BEN01_101.wav"
 
-signal, sr = librosa.load(file, sr=22050) # sr * T -> 22050 * seconds of the file
-# librosa.display.waveshow(signal, sr=sr)
-# plt.xlabel("Time")
-# plt.ylabel("Amplitude")
-# plt.show() 
+def process_audio_images(audio_folder: str, output_subfolder: str = "spectrograms"):
+    """
+    Creates a subfolder inside the given audio folder and prepares audio files
+    for spectrogram processing.
 
-# fft -> spectrum
-fft = np.fft.fft(signal)
+    Args:
+        audio_folder (str): Path to the folder containing audio files.
+        output_subfolder (str): Name of the subfolder to save processed data.
+    """
+    # Full path to the output folder
+    output_folder = os.path.join(audio_folder, output_subfolder)
 
-magnitude = np.abs(fft)
-frequency = np.linspace(0, sr, len(magnitude))
+    # Create the subfolder if it doesn’t exist
+    os.makedirs(output_folder, exist_ok=True)
 
-# plt.plot(frequency[:len(magnitude)//2], magnitude[:len(magnitude)//2])
-# plt.xlabel("Frequency")
-# plt.ylabel("Magnitude")
-# plt.show()
+    # Iterate over audio files in the folder
+    for filename in os.listdir(audio_folder):
+        file_path = os.path.join(audio_folder, filename)
 
-# stft -> spectrogram
-stft = librosa.core.stft(signal, n_fft=2048, hop_length=512)
+        # Skip directories
+        if not os.path.isfile(file_path):
+            continue
+        
+        # Load audio (sr = target sample rate, e.g., 22050 Hz)
+        y, sr = librosa.load("file_path", sr=22050)
 
-spectrogram = np.abs(stft)
+        # Desired length in seconds
+        target_duration = 1.0  
 
-log_spectrogram = librosa.amplitude_to_db(spectrogram)
+        # Convert to samples
+        target_length = int(sr * target_duration)
 
-img = librosa.display.specshow(log_spectrogram, sr=sr, hop_length=512, x_axis='time', y_axis='log' )
-plt.colorbar(img, format="%+2.0f dB")
-plt.xlabel("Time (s)")
-plt.ylabel("Frequency(Hz)")
-plt.show()
+        # Pad or trim to match length
+        y_fixed = librosa.util.fix_length(y, size=target_length)
 
+        print(len(y), "→", len(y_fixed))  # new length always == target_length
 
-# MFCCs
-mfccs = librosa.feature.mfcc(y=signal, sr=sr, n_mfcc=13, n_fft=2048, hop_length=512)
-librosa.display.specshow(mfccs, sr=sr, hop_length=512, x_axis='time')
-plt.colorbar()
-plt.xlabel("Time (s)")
-plt.ylabel("MFCC Coefficients")
-plt.show()
+        print(f"Prepared {file_path} → ready for processing.")
+
+    print(f"All files scanned. Processed data will be saved in: {output_folder}")
+
+process_audio_images("cat-dataset/")
