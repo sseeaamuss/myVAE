@@ -5,20 +5,15 @@ from torch.utils import data
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 from torchvision.datasets import ImageFolder
-
 import io
-
 from PIL import Image
 from tqdm import tqdm
-
-
 from matplotlib import pyplot as plt
-
 import requests
 import tarfile
 import os
-import time
 
+import time
 import pyarrow as pa
 import lance
 
