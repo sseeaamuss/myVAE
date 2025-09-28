@@ -67,6 +67,7 @@ def write_to_lance(images_folder, dataset_name, schema):
         )
 
 
+
 dataset_path = "cat-spectrograms"
 dataset_name = os.path.basename(dataset_path)
 
