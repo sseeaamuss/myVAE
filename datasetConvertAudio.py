@@ -47,8 +47,9 @@ def process_audio_images(audio_folder: str, output_subfolder: str = "spectrogram
             spectrogram = np.abs(stft)
             log_spectrogram = librosa.amplitude_to_db(spectrogram, ref=np.max)
 
+
             # Plot spectrogram
-            plt.figure(figsize=(4, 4))
+            plt.figure(figsize=(5.12, 5.12), dpi=100)  # 5.12in × 100dpi = 512 px
             librosa.display.specshow(
                 log_spectrogram,
                 sr=sr,
@@ -62,7 +63,7 @@ def process_audio_images(audio_folder: str, output_subfolder: str = "spectrogram
             # Save as PNG (same name as audio but with .png)
             output_filename = os.path.splitext(filename)[0] + ".png"
             output_path = os.path.join(output_folder, output_filename)
-            plt.savefig(output_path, bbox_inches="tight", pad_inches=0)
+            plt.savefig(output_path, bbox_inches="tight", pad_inches=0, dpi=100)
             plt.close()
 
             print(f"Processed: {file_path} → {output_path} ({len(signal)} → {len(signal_fixed)} samples)")

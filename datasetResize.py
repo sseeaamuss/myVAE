@@ -33,4 +33,4 @@ def resize_to_square(folder, output_folder=None, size=None):
 
             print(f"{filename}: {width}x{height} → {target_size}x{target_size}")
 
-resize_to_square('cat-spectrograms/valid/cat')
+resize_to_square('test-spectrograms', size = 256)
