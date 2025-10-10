@@ -51,7 +51,7 @@ def process_audio_images(audio_folder: str, output_subfolder: str = "spectrogram
             # Plot spectrogram
             plt.figure(figsize=(5.12, 5.12), dpi=100)  # 5.12in × 100dpi = 512 px
             librosa.display.specshow(
-                log_spectrogram,
+                spectrogram,
                 sr=sr,
                 hop_length=512,
                 x_axis='time',
