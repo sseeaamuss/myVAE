@@ -1,3 +1,10 @@
-cinic-10-data/
-.venv/
-.vscode/
+# Ignore all files
+*
+
+# Except the following
+!*.md
+!*.ipynb
+!*.py
+!cat-dataset/
+!cat-spectrograms-1/
+!cat-spectrograms-2/
