@@ -8,3 +8,5 @@
 !cat-dataset/
 !cat-spectrograms-1/
 !cat-spectrograms-2/
+!training_images/
+!reconstructedImages/
